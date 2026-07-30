@@ -145,6 +145,9 @@ body {
 | `--color-ink` | `text-ink` | texto principal |
 | `--color-muted` | `text-muted` | texto secundario, placeholders |
 | `--color-accent` | `bg-accent` `text-accent` `border-accent` | acciones y estado seleccionado |
+| `--color-danger` | `text-danger` | mensajes de error |
+
+Única excepción permitida: `text-black` sobre botones `bg-accent`, para el contraste del texto sobre el verde.
 
 - [ ] **Step 3: Escribir `src/components/Header.tsx`**
 
@@ -324,7 +327,16 @@ create policy attachments_owner on storage.objects
 
 - [ ] **Step 3: Ejecutar la migración**
 
-En el dashboard de Supabase → **SQL Editor** → pegar el contenido completo de `0001_init.sql` → Run.
+Aplicada vía el MCP de Supabase (`apply_migration`), en **dos** migraciones separadas:
+
+| Migración | Archivo | Contenido |
+|---|---|---|
+| `init_entries_and_contexts` | `supabase/migrations/0001_init_entries_and_contexts.sql` | tablas, índices, RLS, RPC |
+| `init_attachments_storage` | `supabase/migrations/0002_init_attachments_storage.sql` | bucket + policy de Storage |
+
+Van separadas porque las policies sobre `storage.objects` pueden fallar por permisos según el rol, y una migración única haría rollback también del esquema de tablas.
+
+Alternativa sin MCP: dashboard → **SQL Editor** → pegar cada archivo → Run.
 
 - [ ] **Step 4: Verificar**
 
@@ -495,7 +507,7 @@ export function LoginScreen() {
       >
         {sending ? "Enviando…" : "Entrar"}
       </button>
-      {error && <p className="text-sm text-red-400">{error}</p>}
+      {error && <p className="text-sm text-danger">{error}</p>}
     </div>
   );
 }
@@ -776,7 +788,7 @@ export function Composer() {
         </button>
       </div>
 
-      {error && <p className="text-sm text-red-400">{error}</p>}
+      {error && <p className="text-sm text-danger">{error}</p>}
     </div>
   );
 }
@@ -933,7 +945,7 @@ export function EntryList() {
   }
 
   if (error) {
-    return <p className="px-4 py-6 text-sm text-red-400">No se pudo cargar la lista.</p>;
+    return <p className="px-4 py-6 text-sm text-danger">No se pudo cargar la lista.</p>;
   }
 
   if (!entries?.length) {
@@ -1562,7 +1574,7 @@ export function ContextSheet({
           </button>
         </div>
 
-        {error && <p className="mt-3 text-sm text-red-400">{error}</p>}
+        {error && <p className="mt-3 text-sm text-danger">{error}</p>}
       </div>
     </div>
   );
