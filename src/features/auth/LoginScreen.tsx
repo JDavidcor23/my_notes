@@ -34,7 +34,7 @@ export function LoginScreen() {
 
   return (
     <div className="flex min-h-dvh flex-col items-center justify-center gap-4 px-6">
-      <h1 className="text-lg font-semibold">¿Qué haría Cristiano Ronaldo?</h1>
+      <h1 className="text-lg font-semibold">my_brain</h1>
       <input
         type="email"
         inputMode="email"

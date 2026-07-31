@@ -162,6 +162,20 @@ Storage: política equivalente sobre el bucket, restringiendo por prefijo `{user
 
 ## 7. Interfaz
 
+> **Nota de implementación (2026-07-30).** Esta sección se escribió antes de
+> construir y quedó desactualizada en varios puntos. Lo que se construyó:
+> layout de **chat** (historial scrolleable arriba, composer fijo abajo,
+> burbujas con separadores de día), **sin selector de tipo** (§4), **sin
+> header** — en una app de captura es chrome muerto —, paginado de **10 con
+> scroll infinito hacia arriba**, y Borrar/Agrupar en la barra de selección
+> en lugar de acciones por fila. Los grupos se ven con una paleta categórica
+> validada (`#3987e5` azul, `#c98500` amarillo, `#d55181` magenta): el
+> **color identifica al grupo** y el **✓ identifica la selección**, dos
+> señales en dos canales. Del 4º grupo en adelante el color cae a neutro:
+> los colores categóricos no se ciclan, porque repetir uno diría que dos
+> grupos distintos son el mismo. El nombre del grupo siempre está visible
+> como chip, así la identidad nunca queda solo en el color.
+
 Una sola pantalla. Mobile-first. **Dark mode fijo** — negro real (`#000`), no gris. Sin toggle: menos estado, menos código, mejor en pantallas OLED y es una app de uso nocturno.
 
 ```
