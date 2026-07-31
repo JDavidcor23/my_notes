@@ -165,8 +165,8 @@ Storage: política equivalente sobre el bucket, restringiendo por prefijo `{user
 > **Nota de implementación (2026-07-30).** Esta sección se escribió antes de
 > construir y quedó desactualizada en varios puntos. Lo que se construyó:
 > layout de **chat** (historial scrolleable arriba, composer fijo abajo,
-> burbujas con separadores de día), **sin selector de tipo** (§4), **sin
-> header** — en una app de captura es chrome muerto —, paginado de **10 con
+> burbujas con separadores de día), **sin selector de tipo** (§4), header con
+> el texto `¿Qué quieres anotar hoy?`, paginado de **10 con
 > scroll infinito hacia arriba**, y Borrar/Agrupar en la barra de selección
 > en lugar de acciones por fila. Los grupos se ven con una paleta categórica
 > validada (`#3987e5` azul, `#c98500` amarillo, `#d55181` magenta): el
