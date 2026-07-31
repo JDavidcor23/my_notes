@@ -1,4 +1,4 @@
--- my_brain — bucket de adjuntos
+-- my notes — bucket de adjuntos
 -- Aplicada via MCP de Supabase el 2026-07-30.
 --
 -- Va separada de 0001 a proposito: las policies sobre storage.objects

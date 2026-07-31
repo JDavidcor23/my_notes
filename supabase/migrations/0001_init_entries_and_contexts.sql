@@ -1,4 +1,4 @@
--- my_brain — esquema inicial
+-- my notes — esquema inicial
 -- Aplicada via MCP de Supabase el 2026-07-30.
 
 -- ── Contextos ────────────────────────────────────────────────

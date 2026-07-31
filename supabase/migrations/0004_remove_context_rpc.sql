@@ -1,4 +1,4 @@
--- my_brain — desagrupar entradas
+-- my notes — desagrupar entradas
 -- Aplicada via MCP de Supabase el 2026-07-30.
 --
 -- Contraparte de assign_context. Sin esto, agrupar mal es un callejón

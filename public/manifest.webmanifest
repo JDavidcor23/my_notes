@@ -1,6 +1,6 @@
 {
-  "name": "my_brain",
-  "short_name": "my_brain",
+  "name": "my notes",
+  "short_name": "my notes",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

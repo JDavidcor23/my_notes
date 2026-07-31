@@ -1,4 +1,4 @@
-# my_brain — App de captura personal
+# my notes — App de captura personal
 
 **Fecha:** 2026-07-30
 **Estado:** Diseño aprobado

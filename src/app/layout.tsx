@@ -3,13 +3,13 @@ import { Providers } from "@/providers";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "my_brain",
+  title: "my notes",
   description: "Captura personal",
   manifest: "/manifest.webmanifest",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "my_brain",
+    title: "my notes",
   },
   icons: {
     icon: "/icon-192.png",

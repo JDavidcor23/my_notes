@@ -1,4 +1,4 @@
--- my_brain — el tipo deja de elegirse al capturar
+-- my notes — el tipo deja de elegirse al capturar
 -- Aplicada via MCP de Supabase el 2026-07-30.
 --
 -- Clasificar a mano es fricción antes de capturar, y termina marcando todo

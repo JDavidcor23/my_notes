@@ -5,7 +5,7 @@ import { formatBytes } from "@/lib/format";
 import { MAX_FILE_BYTES } from "./api";
 import { useCreateEntry } from "./hooks";
 
-const DRAFT_KEY = "my_brain:draft";
+const DRAFT_KEY = "my_notes:draft";
 
 export function Composer() {
   // El borrador se lee en el inicializador, no en un effect: leerlo después
