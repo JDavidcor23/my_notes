@@ -57,11 +57,14 @@ export function LoginScreen() {
     setError(null);
     setNotice(null);
 
-    // El origin se resuelve solo: en local apunta a localhost, en producción
-    // al dominio de Vercel. Las dos URLs tienen que estar en la lista de
-    // Redirect URLs de Supabase, exactas y sin comodines.
+    // NEXT_PUBLIC_SITE_URL fija el destino al dominio canónico. Se define solo
+    // en Vercel, NO en .env.local: así producción manda siempre a producción
+    // (aunque entres desde una URL de preview) y en local cae al origin, que
+    // es localhost. Sin la variable, el comportamiento es el de antes.
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin;
+
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/reset`,
+      redirectTo: `${siteUrl}/reset`,
     });
     setBusy(false);
 

@@ -20,12 +20,33 @@ recuperar.
 Está implementado. En la pantalla de ingreso escribís el email, tocás **Olvidé
 mi contraseña**, y llega un correo con un link a `/reset` donde ponés una nueva.
 
-El `redirectTo` sale de `window.location.origin`, así que se resuelve solo en
-local, en producción y en los previews de Vercel. No es una variable de entorno
-a propósito: una env var habría que mantenerla en dos lugares y quedaría mal en
-alguno de los dos.
+### De dónde sale el destino del link
 
-Requiere esta configuración en **Supabase → Authentication → URL Configuration**:
+```ts
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin;
+redirectTo: `${siteUrl}/reset`
+```
+
+`NEXT_PUBLIC_SITE_URL` se define **solo en Vercel**, nunca en `.env.local`:
+
+| Dónde | Valor | Resultado |
+|---|---|---|
+| Vercel (producción y previews) | `https://my-notes-seven-nu.vercel.app` | el link siempre cae en producción |
+| Local (variable ausente) | — | cae en `window.location.origin` = `http://localhost:3000` |
+
+Fijarla en Vercel evita tener que agregar cada URL de preview a la lista de
+Supabase: aunque entres desde un preview, el link de recuperación te manda al
+dominio canónico.
+
+**Ojo:** `NEXT_PUBLIC_*` **no es un secreto**. Next inserta esos valores dentro
+del bundle de JavaScript que llega al navegador. Está bien para una URL o para
+la publishable key, que son públicas por diseño. Una clave real (por ejemplo, la
+de OpenAI el día que armes los agentes) va **sin** ese prefijo y se usa solo del
+lado del servidor.
+
+### Configuración en Supabase
+
+**Authentication → URL Configuration**:
 
 - **Site URL**: `https://my-notes-seven-nu.vercel.app`
 - **Redirect URLs**:
