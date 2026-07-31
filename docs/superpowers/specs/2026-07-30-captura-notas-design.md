@@ -30,10 +30,10 @@ Toda decisión de diseño se resuelve a favor de la velocidad de captura.
 
 ### Qué hace
 
-- Capturar texto tipado (nota, idea, error, comentario)
+- Capturar texto libre — **sin clasificar nada al escribir**
 - Adjuntar archivos de **cualquier** tipo (imágenes, PDF, Excel, ZIP, etc.)
-- Agrupar entradas en **contextos** relacionados por ID
-- Mostrar las últimas entradas como confirmación de guardado
+- Agrupar entradas en **contextos** relacionados por ID, y desagruparlas
+- Mostrar el historial como un chat, con paginado hacia atrás
 - Funcionar como PWA instalable en el celular, mobile-first, dark mode
 
 ### Qué NO hace (decisión explícita)
@@ -80,8 +80,9 @@ create table contexts (
 create table entries (
   id           uuid primary key default gen_random_uuid(),
   created_at   timestamptz not null default now(),
-  type         text not null default 'nota'
-               check (type in ('nota','idea','error','comentario')),
+  -- null = SIN CLASIFICAR. No se elige al capturar (ver §7).
+  type         text
+               check (type is null or type in ('nota','idea','error','comentario')),
   body         text,
   attachments  jsonb not null default '[]'::jsonb,
   context_ids  uuid[] not null default '{}',

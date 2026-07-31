@@ -1,9 +1,20 @@
 import type { Metadata, Viewport } from "next";
+import { Providers } from "@/providers";
 import "./globals.css";
 
 export const metadata: Metadata = {
   title: "my_brain",
   description: "Captura personal",
+  manifest: "/manifest.webmanifest",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "my_brain",
+  },
+  icons: {
+    icon: "/icon-192.png",
+    apple: "/icon-192.png",
+  },
 };
 
 export const viewport: Viewport = {
@@ -21,7 +32,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className="min-h-dvh bg-void text-ink antialiased">{children}</body>
+      <body className="min-h-dvh bg-void text-ink antialiased">
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }

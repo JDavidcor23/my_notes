@@ -215,7 +215,7 @@ export default function Home() {
 `.env.example`:
 ```
 NEXT_PUBLIC_SUPABASE_URL=
-NEXT_PUBLIC_SUPABASE_ANON_KEY=
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
 ```
 
 Verificar que `.gitignore` contiene `.env*.local`. Si no, agregarlo.
@@ -247,11 +247,17 @@ git commit -m "feat: scaffold next.js con shell oscuro y header"
 
 - [ ] **Step 1: Crear el proyecto en Supabase**
 
-En [supabase.com](https://supabase.com) crear un proyecto nuevo (plan free). Copiar de **Project Settings → API**:
+En [supabase.com](https://supabase.com) crear un proyecto nuevo (plan free). Copiar de **Project Settings → API Keys**, pestaña **Publishable and secret API keys**:
 - `Project URL` → `NEXT_PUBLIC_SUPABASE_URL`
-- `anon public` key → `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- **Publishable key** (`sb_publishable_…`) → `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
 
 Pegarlos en `.env.local`.
+
+**No usar la key `anon`.** Vive en la pestaña *Legacy anon, service_role API keys* y funciona hasta fin de 2026, pero está deprecada. La publishable tiene exactamente los mismos privilegios bajos (la RLS se comporta igual) y se puede rotar sola sin tocar el resto del proyecto, porque no deriva del JWT secret.
+
+Verificado en `supabase-js@2.111.0`: el SDK detecta el prefijo `sb_publishable_` (`isNewApiKey` en `lib/fetch.ts`). La restricción documentada de no mandar la key nueva en el header `Authorization: Bearer` aplica **solo a Edge Functions** — el cliente les pasa `omitApiKeyAsBearer: true` únicamente a esas. PostgREST, Auth y Storage funcionan sin cambios.
+
+**Nunca copiar una Secret key** (`sb_secret_…`, ex `service_role`): saltea la RLS por completo.
 
 - [ ] **Step 2: Escribir `supabase/migrations/0001_init.sql`**
 
@@ -385,7 +391,7 @@ import { createClient } from "@supabase/supabase-js";
 // Server Component necesita la sesión: la app es 100% cliente.
 export const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
   {
     auth: {
       persistSession: true,
@@ -495,7 +501,7 @@ export function LoginScreen() {
         type="email"
         inputMode="email"
         autoComplete="email"
-        placeholder="tu mail"
+        placeholder="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         className="w-full max-w-xs rounded-xl border border-line bg-surface px-4 py-3 outline-none focus:border-accent"
@@ -1699,7 +1705,7 @@ export const metadata: Metadata = {
 npx vercel --prod
 ```
 
-En el dashboard de Vercel → Settings → Environment Variables, cargar `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_ANON_KEY` con los mismos valores de `.env.local`. Redeployar.
+En el dashboard de Vercel → Settings → Environment Variables, cargar `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` con los mismos valores de `.env.local`. Redeployar.
 
 Después, en Supabase → **Authentication → URL Configuration**, agregar la URL de producción a **Site URL** y a **Redirect URLs**. Sin esto el magic link redirige a `localhost` y no entra.
 
